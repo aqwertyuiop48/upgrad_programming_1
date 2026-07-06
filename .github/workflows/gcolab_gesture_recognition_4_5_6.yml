@@ -1,4 +1,4 @@
-name: "gcolab_gesture_recognition_1_2_3"
+name: "gcolab_gesture_recognition_4_5_6"
 
 # Runs the 10 CNN notebooks that used to live in trigger-all.yml chunks 9
 # and 10 on Google Colab (T4 GPU) instead of the CI's 2-vCPU CPU runner,
@@ -7,6 +7,9 @@ name: "gcolab_gesture_recognition_1_2_3"
 # original .py file — see .github/workflows/scripts/py_to_ipynb.py.
 
 on:
+  push:
+    branches:
+      - main1
   workflow_dispatch:
   
 jobs:
@@ -115,7 +118,7 @@ jobs:
           # "long"  -> try T4 GPU first, fall back to CPU
           # "short" -> CPU only (trivial print-only notebooks)
           entries=(
-            "2_Course_continuation/_2_Exam_2/4_Deep_learning/_7_Gesture_recognition_assignment/GESTURE_RECOGNITION_ASSIGNMENT_SUBMISSION/gesture_control_for_smarttv_model_1_2_3.ipynb|long"
+            "2_Course_continuation/_2_Exam_2/4_Deep_learning/_7_Gesture_recognition_assignment/GESTURE_RECOGNITION_ASSIGNMENT_SUBMISSION/gesture_control_for_smarttv_model_4_5.ipynb|long"
           )
 
           # ----- Per-slot worker (runs in a subshell, isolated credentials) -----
