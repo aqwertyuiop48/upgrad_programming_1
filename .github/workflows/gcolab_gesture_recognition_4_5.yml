@@ -1,4 +1,4 @@
-name: "gcolab_gesture_recognition_4_5_6"
+name: "gcolab_gesture_recognition_4_5"
 
 # Runs the 10 CNN notebooks that used to live in trigger-all.yml chunks 9
 # and 10 on Google Colab (T4 GPU) instead of the CI's 2-vCPU CPU runner,
@@ -7,9 +7,6 @@ name: "gcolab_gesture_recognition_4_5_6"
 # original .py file — see .github/workflows/scripts/py_to_ipynb.py.
 
 on:
-  push:
-    branches:
-      - main1
   workflow_dispatch:
   
 jobs:
