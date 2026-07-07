@@ -21,7 +21,6 @@ CPU-heavy scripts (large CNN training, exhaustive `GridSearchCV`/`RandomizedSear
 | # | Script | Reason | Category |
 |---|--------|--------|----------|
 | 1 | `Coding_questions.py` | Contains 8 `input()` calls (interactive coding-challenge harness). Would hang the runner. | Interactive input |
-| 2 | `Lead_Scoring_ALL_IN_ONE_COLAB.py` | Imports `google.colab` and uses Colab-only mount / secret injection. Not reproducible on `ubuntu-latest`. | Cloud-only runtime |
 
 ## How to unskip a script
 
