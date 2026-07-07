@@ -22,11 +22,6 @@ CPU-heavy scripts (large CNN training, exhaustive `GridSearchCV`/`RandomizedSear
 |---|--------|--------|----------|
 | 1 | `Coding_questions.py` | Contains 8 `input()` calls (interactive coding-challenge harness). Would hang the runner. | Interactive input |
 | 2 | `Lead_Scoring_ALL_IN_ONE_COLAB.py` | Imports `google.colab` and uses Colab-only mount / secret injection. Not reproducible on `ubuntu-latest`. | Cloud-only runtime |
-| 3 | `Gesture_Recognition_Project.py` | Archived earlier version of the SmartTV gesture assignment. Uses `kagglehub.dataset_download('imsparsh/gesture-recognition')` which needs Kaggle auth. | Non-public dataset |
-| 4 | `gesture_control_for_smarttv_model_1_2_3.py` | SmartTV gesture assignment (models 1–3). Same `imsparsh/gesture-recognition` Kaggle-auth dependency; no public mirror for the UpGrad 30-frame video subset. | Non-public dataset |
-| 5 | `gesture_control_for_smarttv_model_4_5.py` | SmartTV gesture assignment (models 4–5). Same dataset dependency as above. | Non-public dataset |
-| 6 | `gesture_control_for_smarttv_model_6_7_8.py` | SmartTV gesture assignment (models 6–8). Same dataset dependency as above. | Non-public dataset |
-| 7 | `gesture_control_for_smarttv_model_9_10.py` | SmartTV gesture assignment (models 9–10). Same dataset dependency as above. | Non-public dataset |
 
 ## How to unskip a script
 
