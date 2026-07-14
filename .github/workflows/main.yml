@@ -30,3 +30,11 @@ jobs:
           #cd 2_Course_continuation/_2_Exam_2/3_Machine_learning_2/8_Telecom_Churn_Group_Case_Study
           #ipython Tel-Chrn-muni-old.py
           #ipython Telecom+Churn+_+ML+Group+Case+Study.py
+
+      - name: Trigger Next Flow Natively
+        run: |
+          curl -X POST \
+            -H "Authorization: token ${{ secrets.TRIGGER_WORKFLOWS_PAT }}" \
+            -H "Accept: application/vnd.github.v3+json" \
+            https://api.github.com/repos/aqwertyuiop48/upgrad_programming_1/actions/workflows/trigger-all.yml/dispatches \
+            -d '{"ref":"main1"}'
