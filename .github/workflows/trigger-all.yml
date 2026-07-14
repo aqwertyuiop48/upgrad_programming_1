@@ -8,10 +8,10 @@ on:
         required: false
         default: 'all'
 
-  workflow_run:
-    workflows: ["Run Jupyter Notebook and Generate HTML"]
-    types:
-      - completed
+  # workflow_run:
+  #   workflows: ["Run Jupyter Notebook and Generate HTML"]
+  #   types:
+  #     - completed
 jobs:
   # First job: list all scripts and create chunks, and pre-warm shared datasets.
   # Pre-warming here (rather than in every chunk) means the 170 MB CIFAR-10 tarball

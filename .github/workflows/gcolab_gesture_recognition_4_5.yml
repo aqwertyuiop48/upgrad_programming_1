@@ -9,10 +9,10 @@ name: "gcolab_gesture_recognition_4_5"
 on:
   workflow_dispatch:
   
-  workflow_run:
-    workflows: ["gcolab_gesture_recognition_1_2_3"]
-    types:
-      - completed
+  # workflow_run:
+  #   workflows: ["gcolab_gesture_recognition_1_2_3"]
+  #   types:
+  #     - completed
 jobs:
   run-notebooks:
     runs-on: ubuntu-latest

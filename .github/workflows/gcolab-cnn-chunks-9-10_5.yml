@@ -9,10 +9,10 @@ name: "gcolab // CIFAR CNN chunks 9 and 10_5"
 on:
   workflow_dispatch:
   
-  workflow_run:
-    workflows: ["gcolab // CIFAR CNN chunks 9 and 10_4"]
-    types:
-      - completed
+  # workflow_run:
+  #   workflows: ["gcolab // CIFAR CNN chunks 9 and 10_4"]
+  #   types:
+  #     - completed
 jobs:
   run-notebooks:
     runs-on: ubuntu-latest
