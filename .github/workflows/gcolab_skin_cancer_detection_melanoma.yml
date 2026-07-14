@@ -9,6 +9,10 @@ name: "gcolab_skin_cancer_detection_melanoma"
 on:
   workflow_dispatch:
   
+  workflow_run:
+    workflows: ["gcolab_gesture_recognition_9_10"]
+    types:
+      - completed
 jobs:
   run-notebooks:
     runs-on: ubuntu-latest

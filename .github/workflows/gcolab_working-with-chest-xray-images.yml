@@ -9,6 +9,10 @@ name: "gcolab-working-with-chest-xray-images"
 on:
   workflow_dispatch:
   
+  workflow_run:
+    workflows: ["gcolab_skin_cancer_detection_melanoma"]
+    types:
+      - completed
 jobs:
   run-notebooks:
     runs-on: ubuntu-latest

@@ -1,4 +1,4 @@
-name: "gcolab // CIFAR CNN chunks 9 and 10"
+name: "gcolab // CIFAR CNN chunks 9 and 10_3"
 
 # Runs the 10 CNN notebooks that used to live in trigger-all.yml chunks 9
 # and 10 on Google Colab (T4 GPU) instead of the CI's 2-vCPU CPU runner,
@@ -9,6 +9,10 @@ name: "gcolab // CIFAR CNN chunks 9 and 10"
 on:
   workflow_dispatch:
   
+  workflow_run:
+    workflows: ["gcolab // CIFAR CNN chunks 9 and 10_2"]
+    types:
+      - completed
 jobs:
   run-notebooks:
     runs-on: ubuntu-latest
