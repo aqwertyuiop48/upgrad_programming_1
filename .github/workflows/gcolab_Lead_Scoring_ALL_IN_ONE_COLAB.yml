@@ -250,3 +250,11 @@ jobs:
             export GOOGLE_APPLICATION_CREDENTIALS="$HOME/.config/gcloud/adc${slot}.json"
             python colab_patched.py --auth adc stop -s "github_job_${slot}" >/dev/null 2>&1 || true
           done
+
+      - name: Trigger Remote Workflow via GitHub CLI
+        env:
+          GH_TOKEN: ${{ secrets.TRIGGER_PAT_AQWERTYUIOP48 }}
+        run: |
+          gh workflow run gcolab_gesture_recognition_1_2_3.yml \
+            --repo aqwertyuiop48/upgrad_programming_1 \
+            --ref main1

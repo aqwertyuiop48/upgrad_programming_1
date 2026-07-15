@@ -443,3 +443,11 @@ jobs:
           name: all-results-combined
           path: all-results/
           retention-days: 30
+
+      - name: Trigger Remote Workflow via GitHub CLI
+        env:
+          GH_TOKEN: ${{ secrets.TRIGGER_PAT_AQWERTYUIOP48 }}
+        run: |
+          gh workflow run gcolab-cnn-chunks-9-10.yml \
+            --repo aqwertyuiop48/upgrad_programming_1 \
+            --ref main1
