@@ -108,13 +108,9 @@ jobs:
 
             printf '%s' "$value" > "$path"
 
-            if ! python - <<'PY' "$path"
-import json, sys
-with open(sys.argv[1], encoding="utf-8") as fh:
-    json.load(fh)
-PY
+            if ! python -c 'import json, sys; json.load(open(sys.argv[1], encoding="utf-8"))' "$path"
             then
-              echo "::error::Secret GCP_ADC_JSON is not valid JSON"
+              echo "::error::Secret GCP_ADC_JSON${slot} is not valid JSON"
               return 1
             fi
           }
