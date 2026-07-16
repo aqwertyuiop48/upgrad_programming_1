@@ -2,15 +2,15 @@
 # coding: utf-8
 
 # # Text generation using RNN - Character Level (TO BE RUN IN GOOGLE COLAB)
-# 
+#
 # To generate text using RNN, we need a to convert raw text to a supervised learning problem format.
-# 
+#
 # Take, for example, the following corpus:
-# 
+#
 # "Her brother shook his head incredulously"
-# 
+#
 # First we need to divide the data into tabular format containing input (X) and output (y) sequences. In case of a character level model, the X and y will look like this:
-# 
+#
 # |      X     |  Y  |
 # |------------|-----|
 # |    Her b   |  r  |
@@ -22,13 +22,13 @@
 # |    .....   |  .  |
 # |    ulous   |  l  |
 # |    lousl   |  y  |
-# 
+#
 # Note that in the above problem, the sequence length of X is five characters and that of y is one character. Hence, this is a many-to-one architecture. We can, however, change the number of input characters to any number of characters depending on the type of problem.
-# 
+#
 # A model is trained on such data. To generate text, we simply give the model any five characters using which it predicts the next character. Then it appends the predicted character to the input sequence (on the extreme right of the sequence) and discards the first character (character on extreme left of the sequence). Then it predicts again using the new sequence and the cycle continues until a fix number of iterations. An example is shown below:
-# 
+#
 # Seed text: "incre"
-# 
+#
 # |      X                                            |  Y                       |
 # |---------------------------------------------------|--------------------------|
 # |                        incre                      |    < predicted char 1 >  |
@@ -69,48 +69,66 @@ from tensorflow.keras.utils import get_file
 
 # # 1. Preprocess data
 
-# We're going to build a C code generator by training an RNN on a huge corpus of C code (the linux kernel code). You can download the C code used as source text from the following link:
-# https://github.com/torvalds/linux/tree/master/kernel
-# 
-# We have already downloaded the entire kernel folder and stored in a local directory
+# We're going to build a C code generator by training an RNN on a huge corpus of C code (the linux kernel code).
+#
+# Instead of cloning the entire repository and relying on the "linux_kernel" folder already being present
+# locally, we download ONLY that subfolder directly from GitHub, pinned to the exact commit shown in the
+# provided URL:
+# https://github.com/aqwertyuiop48/upgrad_programming/tree/59531b5b21e42d71c4ab6b9535026040aade1a8f/2_Course_continuation/_2_Exam_2/4_Deep_learning/_6_Recurrent_Neural_Networks/linux_kernel
+#
+# This is done using a git "sparse checkout" - it initializes an empty repo, tells git to only ever
+# materialize files under the target subfolder, fetches just that one commit, and checks it out. The end
+# result is that only the "linux_kernel" folder (and nothing else from the rest of the repository) is
+# downloaded to disk.
 
-# ## Load C code
+# ## Download the linux_kernel folder
 
 # In[3]:
 
 
 import os
+import subprocess
 import tempfile
-import git
 
-# Define the repository and directory path
+# Repository and target subfolder details (pinned to the exact commit from the shared URL)
 repo_url = "https://github.com/aqwertyuiop48/upgrad_programming"
+commit_sha = "59531b5b21e42d71c4ab6b9535026040aade1a8f"
+subdir_path = "2_Course_continuation/_2_Exam_2/4_Deep_learning/_6_Recurrent_Neural_Networks"
+target_subfolder = f"{subdir_path}/linux_kernel"
+
 # Use a portable path: Colab's /content when available, else system temp dir
 if os.path.isdir("/content"):
     repo_path = "/content/upgrad_programming"
 else:
     repo_path = os.path.join(tempfile.gettempdir(), "upgrad_programming")
-subdir_path = "2_Course_continuation/_2_Exam_2/4_Deep_learning/_6_Recurrent_Neural_Networks"
 
-# Clone the repository
 if not os.path.exists(repo_path):
-    git.Repo.clone_from(repo_url, repo_path)
+    os.makedirs(repo_path, exist_ok=True)
 
-# Change the working directory to the specific folder
-os.chdir(os.path.join(repo_path, subdir_path))
+    # Initialize an empty repo and point it at the remote
+    subprocess.run(["git", "init"], cwd=repo_path, check=True)
+    subprocess.run(["git", "remote", "add", "origin", repo_url], cwd=repo_path, check=True)
+
+    # Enable sparse checkout so only the target subfolder gets written to disk
+    subprocess.run(["git", "config", "core.sparseCheckout", "true"], cwd=repo_path, check=True)
+    sparse_checkout_file = os.path.join(repo_path, ".git", "info", "sparse-checkout")
+    with open(sparse_checkout_file, "w") as f:
+        f.write(target_subfolder + "/*\n")
+
+    # Fetch just the single pinned commit (shallow) and check it out
+    subprocess.run(["git", "fetch", "--depth", "1", "origin", commit_sha], cwd=repo_path, check=True)
+    subprocess.run(["git", "checkout", "FETCH_HEAD"], cwd=repo_path, check=True)
+else:
+    print(f"Repo folder already exists at {repo_path}, skipping download.")
+
+# Path to the downloaded linux_kernel folder
+path = os.path.join(repo_path, target_subfolder)
+os.chdir(path)
 print("Current working directory:", os.getcwd())
 
 
 # In[4]:
 
-
-# set path where C files reside
-
-print("Current working directory:", os.getcwd())
-
-path = r"linux_kernel"
-
-os.chdir(path)
 
 file_names = os.listdir()
 print(file_names)
@@ -210,13 +228,13 @@ print('Number of training samples: {}'.format(len(sentences)))
 
 
 # ## Create input and output using the created sequences
-# 
+#
 # When you're not using the Embedding layer of the Keras as the very first layer, you need to convert your data in the following format:
 # #### input shape should be of the form :  (#samples, #timesteps, #features)
 # #### output shape should be of the form :  (#samples, #timesteps, #features)
-# 
+#
 # ![Tensor shape](./jupyter resources/rnn_tensor.png)
-# 
+#
 # #samples: the number of data points (or sequences)
 # #timesteps: It's the length of the sequence of your data (the MAX_SEQ_LENGTH variable).
 # #features: Number of features depends on the type of problem. In this problem, #features is the vocabulary size, that is, the dimensionality of the one-hot encoding matrix using which each character is being represented. If you're working with **images**, features size will be equal to: (height, width, channels), and the input shape will be (#training_samples, #timesteps, height, width, channels)
@@ -365,4 +383,3 @@ for diversity in [0.5, 1.0, 1.5]:
 
 import datetime, pytz;
 print("Current Time in IST:", datetime.datetime.now(pytz.utc).astimezone(pytz.timezone('Asia/Kolkata')).strftime('%Y-%m-%d %H:%M:%S'))
-
