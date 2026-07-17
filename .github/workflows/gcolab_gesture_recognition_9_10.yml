@@ -84,7 +84,7 @@ jobs:
       - name: Restore 3 Google ADC credentials
         shell: bash
         env:
-          GCP_ADC_JSON1: ${{ secrets.GCP_ADC_JSON1 }}
+          GCP_ADC_JSON1: ${{ secrets.GCP_ADC_JSON }}
           GCP_ADC_JSON2: ${{ secrets.GCP_ADC_JSON2 }}
           GCP_ADC_JSON3: ${{ secrets.GCP_ADC_JSON3 }}
         run: |
