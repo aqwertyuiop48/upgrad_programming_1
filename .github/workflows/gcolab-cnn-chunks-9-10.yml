@@ -27,7 +27,7 @@ jobs:
           python-version: '3.13'
 
       - name: Install Google Colab CLI
-        run: pip install git+https://github.com/googlecolab/google-colab-cli
+        run: pip install git+https://github.com/googlecolab/google-colab-cli && pip install "jupyter_kernel_client==0.9.0"
 
       - name: Create Patched Colab Wrapper
         run: |
